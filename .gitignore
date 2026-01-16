@@ -1,3 +1,26 @@
+# --- Pythonのキャッシュ ---
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# --- APIキー（絶対Gitに入れない） ---
+.env
+
+# --- 仮想環境（Gitに入れない） ---
+env_2/
+.venv/
+venv/
+
+# --- OS/エディタ系 ---
+.DS_Store
+Thumbs.db
+
+# VS Codeは基本無視
+.vscode/*
+
+# ただし settings.json だけはGitに入れる（env指定を残す）
+!.vscode/settings.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
