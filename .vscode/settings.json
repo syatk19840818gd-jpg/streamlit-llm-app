@@ -1,0 +1,9 @@
+{
+  "python.defaultInterpreterPath": "C:\\Users\\tarutani tomoaki\\Pictures\\生成AI\\VScode\\streamlit\\env_2\\Scripts\\python.exe",
+  "python.terminal.activateEnvironment": true,
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/.pytest_cache": true,
+    "**/*.pyc": true
+  }
+}
