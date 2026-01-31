@@ -397,8 +397,8 @@ st.markdown(
 
 # モード選択（ラジオ）：表示文字は改行込みで整える
 MODE_LABELS = {
-    "teach": "おしえて☆モード\n   キミが「しりたいこと」を わかりやす〜くおしえるよ！",
-    "quiz":  "クイズ☆モード\n   キミが「しりたいこと」の アッ！とおどろくクイズをだすよ！",
+    "teach": "おしえて☆モード\n   君が「しりたいこと」を わかりやす〜くおしえるよ！",
+    "quiz":  "クイズ☆モード\n   君が「しりたいこと」のアッ！とおどろくクイズをだすよ！",
 }
 mode_key = st.radio("", ["teach", "quiz"], index=0, format_func=lambda k: MODE_LABELS[k])
 mode = "おしえて☆モード" if mode_key == "teach" else "クイズ☆モード"
