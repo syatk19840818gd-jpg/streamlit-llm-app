@@ -56,7 +56,7 @@ def _set_background(image_path: str) -> None:
             background-image: url("data:image/jpeg;base64,{b64}");
             background-repeat: no-repeat;
             background-position: 50% 42%;
-            background-size: 800px auto;
+            background-size: min(800px, 92vw) auto;
             background-attachment: fixed;
             background-color: white;
           }}
