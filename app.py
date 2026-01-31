@@ -469,7 +469,7 @@ mode = "おしえて☆モード" if mode_key == "teach" else "クイズ☆モ�
 
 # 例文（入力のヒント）
 st.markdown(
-    '<div class="wani-example">たとえば？「パンダ」「アメリカ」「うちゅう」「おんがく」など</div>',
+    '<div class="wani-example">たとえば？｢パンダ｣｢アメリカ｣｢うちゅう｣｢おんがく｣など</div>',
     unsafe_allow_html=True,
 )
 
