@@ -142,7 +142,7 @@ def _set_background(image_path: str) -> None:
             font-family: "Yu Gothic", "游ゴシック", "YuGothic", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
             font-size: 16px;
             margin-top: 0px;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
           }}
 
           /* 入力欄のフォント */
