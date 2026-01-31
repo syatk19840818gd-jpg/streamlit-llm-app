@@ -464,7 +464,7 @@ MODE_LABELS = {
     "teach": "おしえて☆モード\n   ｢しりたいこと｣を わかりやす〜くおしえるよ！",
     "quiz":  "クイズ☆モード\n   ｢しりたいこと｣のアッ！とおどろくクイズをだすよ！",
 }
-mode_key = st.radio("", ["teach", "quiz"], index=0, format_func=lambda k: MODE_LABELS[k])
+mode_key = st.radio("モード選択", ["teach", "quiz"], index=0, format_func=lambda k: MODE_LABELS[k], label_visibility="collapsed")
 mode = "おしえて☆モード" if mode_key == "teach" else "クイズ☆モード"
 
 # 例文（入力のヒント）
@@ -474,7 +474,7 @@ st.markdown(
 )
 
 # 入力欄（topic）
-topic = st.text_input("", value="", placeholder="しりたいことを1ついれて「おしえて！」をおしてね。")
+topic = st.text_input("知りたいこと", value="", placeholder="しりたいことを1ついれて「おしえて！」をおしてね。", label_visibility="collapsed")
 
 # 入力チェック（空・長すぎ）
 def validate_topic(x: str):
