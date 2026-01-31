@@ -468,8 +468,15 @@ mode_key = st.radio("モード選択", ["teach", "quiz"], index=0, format_func=l
 mode = "おしえて☆モード" if mode_key == "teach" else "クイズ☆モード"
 
 # 例文（入力のヒント）
+# モードによって表示するメッセージを切り替える辞書を用意
+EXAMPLE_TEXTS = {
+    "teach": "たとえば①「パンダ」「アメリカ」「音楽」「うちゅう」など<br>たとえば②「なぜ〇〇なの？」「〇〇はなんで〇〇なの？」",
+    "quiz":  "たとえば？「パンダ」「アメリカ」「音楽」「うちゅう」など",
+}
+
+# 辞書から今のモード（mode_key）に合う文を取り出して表示
 st.markdown(
-    '<div class="wani-example">たとえば？「パンダ」「アメリカ」「音楽」「うちゅう」など</div>',
+    f'<div class="wani-example">{EXAMPLE_TEXTS[mode_key]}</div>',
     unsafe_allow_html=True,
 )
 
@@ -480,8 +487,8 @@ topic = st.text_input("知りたいこと", value="", placeholder="しりたい�
 def validate_topic(x: str):
     if not x.strip():
         return "なにをしりたい？（ことばを1つだけいれてね）"
-    if len(x) > 20:
-        return "２０もじまでいれられるよ！"
+    if len(x) > 30:
+        return "３０もじまでいれられるよ！"
     return None
 
 # 実行ボタン
