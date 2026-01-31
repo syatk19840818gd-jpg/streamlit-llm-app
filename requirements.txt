@@ -85,3 +85,4 @@ uuid_utils==0.13.0
 watchdog==6.0.0
 yarl==1.22.0
 zstandard==0.25.0
+gTTS==2.5.4

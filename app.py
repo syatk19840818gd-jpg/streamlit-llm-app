@@ -10,7 +10,9 @@ import base64
 import json
 import re
 import streamlit as st
+import io                   
 
+from gtts import gTTS       
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 
@@ -390,6 +392,36 @@ def _trim_quiz_lengths(obj: dict) -> dict:
     obj["quizzes"] = out
     return obj
 
+# =========================
+# 音声データのHTML化
+# =========================
+def _make_audio_html(text: str) -> str:
+    """テキストをgTTSで音声化し、base64エンコードしてHTMLタグを返す"""
+    if not text:
+        return ""
+    try:
+        # gTTSで音声生成 (lang='ja'で日本語)
+        tts = gTTS(text=text, lang='ja')
+        # メモリ上に書き込み
+        mp3_fp = io.BytesIO()
+        tts.write_to_fp(mp3_fp)
+        mp3_fp.seek(0)
+        # Base64変換
+        b64 = base64.b64encode(mp3_fp.read()).decode()
+        
+        # HTMLタグ生成（回答文の下に出すプレイヤー）
+        # margin-topなどで位置を調整
+        html = f"""
+        <div style="margin-top: 20px; padding-top: 10px; border-top: 1px dashed #ccc; text-align: right;">
+            <span style="font-size: 14px; margin-right: 8px; font-weight: bold; color: #555;">🔊 よみあげ</span>
+            <audio controls style="vertical-align: middle; height: 32px;">
+                <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
+            </audio>
+        </div>
+        """
+        return html
+    except Exception as e:
+        return ""
 
 # =========================
 # 7) 画面
@@ -401,6 +433,9 @@ _set_background(BG_IMAGE_PATH)
 # セッション状態：表示テキスト・クイズの進行状態を保存する箱
 if "output_text" not in st.session_state:
     st.session_state.output_text = ""
+
+if "audio_html" not in st.session_state:
+    st.session_state.audio_html = ""
 
 if "quiz_stage" not in st.session_state:
     st.session_state.quiz_stage = 0
@@ -478,6 +513,8 @@ if clicked:
                     raw = get_wani_answer(topic, mode)
                     ans = _clean_teach_answer(raw)
                     st.session_state.output_text = ans
+                    # 音声を生成
+                    st.session_state.audio_html = _make_audio_html(ans)
 
                 # クイズ☆モード：1回目=問題、2回目=答え＋せつめい
                 else:
@@ -530,6 +567,8 @@ if clicked:
                                     f"② {q2}\n\n"
                                     "「おしえて！」をもう１回おすと「こたえ」と「せつめい」がでるよ！"
                                 )
+                                # 音声を生成
+                                st.session_state.audio_html = _make_audio_html(st.session_state.output_text)
 
                     # 2回目：答え＋せつめい表示
                     else:
@@ -549,13 +588,18 @@ if clicked:
                             f"せつめい：{e2}"
                         )
                         st.session_state.quiz_stage = 0
+                        # 音声を生成
+                        st.session_state.audio_html = _make_audio_html(st.session_state.output_text)
 
             except Exception:
                 st.session_state.output_text = "ごめんね、うまくできなかったよ。もう1回おしてみてね！"
 
-        # \n を <br> に変換して、出力BOXに反映
+        # テキストと音声を合体させて表示
         render_text = st.session_state.output_text.replace("\n", "<br>")
+        audio_tag = st.session_state.audio_html
+        
+        # wani-output の枠の中に audio_tag を入れることで枠内にボタンを表示
         output_area.markdown(
-            f'<div class="wani-output">{render_text}</div>',
+            f'<div class="wani-output">{render_text}{audio_tag}</div>',
             unsafe_allow_html=True,
-)
+        )
