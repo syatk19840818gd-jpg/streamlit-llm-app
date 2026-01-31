@@ -388,8 +388,8 @@ st.markdown(f'<div class="wani-title">{APP_TITLE}</div>', unsafe_allow_html=True
 st.markdown(
     """
     <div class="wani-desc">
-      こんにちは！この「せかい」のことを、な〜んでもしってるワニ先生だよ！<br>
-      キミが「知りたいこと」を２つのモードからえらんで、な〜んでも聞いてね！
+      この世界のことを、な〜んでもしってるワニ先生だよ！<br>
+      キミが「知りたいこと」を２つのモードからえらんでね！
     </div>
     """,
     unsafe_allow_html=True,
