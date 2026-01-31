@@ -62,35 +62,54 @@ def _set_background(image_path: str) -> None:
           }}
 
           /* 画面の横幅・上の余白（全体のレイアウト） */
+           /* 【自動調整1】上の余白を環境に合わせて計算する */
           .block-container {{
-            padding-top: 36px;
+            /* calc(60px + env(safe-area-inset-top)) の意味：
+               「基本の60px」＋「そのスマホの切り欠き（ノッチ）の高さ」を
+               自動で足し算して余白にする命令。*/
+            padding-top: calc(60px + env(safe-area-inset-top)) !important;
+            padding-bottom: 40px;
             max-width: 980px;
-          }}
+          }}          
 
           /* タイトル（明朝） */
+           /* 【自動調整2】文字サイズを画面幅に合わせて伸縮させる */
           .wani-title {{
             font-family: "Yu Mincho", "游明朝", "YuMincho", "Hiragino Mincho ProN", "MS Mincho", serif;
-            font-size: 64px;
             font-weight: 900;
-            line-height: 1.0;
-            margin-bottom: 14px;
+            
+            /* clamp(最小サイズ, 推奨サイズ, 最大サイズ) の意味：
+               ・画面が小さくても「32px」よりは小さくしない
+               ・基本は画面幅の「10% (10vw)」の大きさにする
+               ・画面が大きくても「64px」よりは大きくしない
+               これをブラウザが自動で計算する。*/
+            font-size: clamp(32px, 10vw, 64px);
+
+            /* 行間調整 */
+            line-height: 1.4;
+            
+            /* 文字周り調整 */
+            margin-bottom: 10px;
+            padding-top: 10px;
           }}
 
           /* 概要（ゴシック） */
+           /* 概要文レスポンシブ対応 */
           .wani-desc {{
             font-family: "Yu Gothic", "游ゴシック", "YuGothic", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
-            font-size: 18px;
+            /* スマホなら14px、PCなら18pxくらいになるように調整 */
+            font-size: clamp(14px, 4vw, 18px);
             line-height: 1.7;
             margin-bottom: 14px;
           }}
 
-          /* ラジオ全体の上下の余白（モード選択のかたまり） */
+          /* ラジオ全体の上下の余白調整 */
           div[data-testid="stRadio"] {{
             margin-top: 2px;
             margin-bottom: 0px;
           }}
 
-          /* ラジオ1項目ごとの余白（項目どうしの間隔） */
+          /* ラジオ1項目ごとの余白（項目どうしの間隔）調整 */
           div[data-testid="stRadio"] label[data-baseweb="radio"] {{
             align-items: flex-start;
             margin-bottom: 16px;
@@ -151,24 +170,6 @@ def _set_background(image_path: str) -> None:
             line-height: 1.5;
             white-space: pre-wrap;
             background: rgba(255,255,255,0.0);
-          }}
-
-          /* スマホだけレイアウト調整 */
-          @media (max-width: 600px) {{
-            .block-container {{
-              padding-top: calc(56px + env(safe-area-inset-top));
-              padding-left: 14px;
-              padding-right: 14px;
-            }}
-
-            .wani-title {{
-              font-size: 44px;
-              margin-bottom: 10px;
-            }}
-
-            .wani-desc {{
-              font-size: 16px;
-            }}
           }}
         </style>
         """,
