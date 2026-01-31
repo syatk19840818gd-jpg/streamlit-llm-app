@@ -568,7 +568,9 @@ if clicked:
                                     "「おしえて！」をもう１回おすと「こたえ」と「せつめい」がでるよ！"
                                 )
                                 # 音声を生成
-                                st.session_state.audio_html = _make_audio_html(st.session_state.output_text)
+                                # 読み上げ用（①→いちばん、②→にばん、最後の案内文なし）
+                                audio_text = f"いちばん。{q1}。にばん。{q2}"
+                                st.session_state.audio_html = _make_audio_html(audio_text)
 
                     # 2回目：答え＋せつめい表示
                     else:
@@ -589,7 +591,12 @@ if clicked:
                         )
                         st.session_state.quiz_stage = 0
                         # 音声を生成
-                        st.session_state.audio_html = _make_audio_html(st.session_state.output_text)
+                        # 読み上げ用（問題文＋「いちばんのこたえ」＋「せつめい」キーなし）
+                        audio_text = (
+                            f"いちばんのこたえ。{a1}。{e1}。"
+                            f"にばんのこたえ。{a2}。{e2}"
+                        )
+                        st.session_state.audio_html = _make_audio_html(audio_text)
 
             except Exception:
                 st.session_state.output_text = "ごめんね、うまくできなかったよ。もう1回おしてみてね！"
