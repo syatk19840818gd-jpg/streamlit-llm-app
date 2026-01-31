@@ -385,7 +385,7 @@ def _trim_quiz_lengths(obj: dict) -> dict:
         # ★変更点：途中で「…」になりにくいように、文末っぽい所で収める
         q = _truncate_at_punct(q, 150)
         a = _truncate_at_punct(a, 20)
-        e = _truncate_at_punct(e, 50)
+        e = _truncate_at_punct(e, 100)
 
         out.append({"question": q, "answer": a, "explanation": e})
 
