@@ -152,6 +152,24 @@ def _set_background(image_path: str) -> None:
             white-space: pre-wrap;
             background: rgba(255,255,255,0.0);
           }}
+
+          /* スマホだけレイアウト調整 */
+          @media (max-width: 600px) {{
+            .block-container {{
+              padding-top: calc(56px + env(safe-area-inset-top));
+              padding-left: 14px;
+              padding-right: 14px;
+            }}
+
+            .wani-title {{
+              font-size: 44px;
+              margin-bottom: 10px;
+            }}
+
+            .wani-desc {{
+              font-size: 16px;
+            }}
+          }}
         </style>
         """,
         unsafe_allow_html=True,
