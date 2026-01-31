@@ -406,8 +406,8 @@ st.markdown(f'<div class="wani-title">{APP_TITLE}</div>', unsafe_allow_html=True
 st.markdown(
     """
     <div class="wani-desc">
-      この世界のことを、な〜んでも知ってるワニ先生だよ！<br>
-      キミが「知りたいこと」を２つのモードから選んでね！
+      この世界のことを、な〜んでもしってるワニ先生だよ！<br>
+      キミが「しりたいこと」を２つのモードから選んでね！
     </div>
     """,
     unsafe_allow_html=True,
@@ -415,8 +415,8 @@ st.markdown(
 
 # モード選択（ラジオ）：表示文字は改行込みで整える
 MODE_LABELS = {
-    "teach": "おしえて☆モード\n   ｢知りたいこと｣を わかりやす〜くおしえるよ！",
-    "quiz":  "クイズ☆モード\n   ｢知りたいこと｣のアッ！とおどろくクイズをだすよ！",
+    "teach": "おしえて☆モード\n   ｢しりたいこと｣を わかりやす〜くおしえるよ！",
+    "quiz":  "クイズ☆モード\n   ｢しりたいこと｣のアッ！とおどろくクイズをだすよ！",
 }
 mode_key = st.radio("", ["teach", "quiz"], index=0, format_func=lambda k: MODE_LABELS[k])
 mode = "おしえて☆モード" if mode_key == "teach" else "クイズ☆モード"
