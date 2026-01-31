@@ -231,8 +231,8 @@ QUIZ_SYSTEM_JSON = """
 【重要：出力ルール】
 ・出力は JSON だけ（前後に文章をつけない／コードブロックも禁止）。
 ・クイズは必ず2問。
-・questionは150文字以内、answerは20文字以内、explanationは50文字以内。
-・explanationは、その答えの「簡単な言葉を使ったせつめい（解説）」を書く。
+・questionは150文字以内、answerは20文字以内、explanationは100文字以内。
+・explanationは、その答えの「理由（解説）」を書く。
 ・question/answer/explanationの中で " は使わない（強調は「」）
 
 【重要：問題作成の禁止・制限事項】
