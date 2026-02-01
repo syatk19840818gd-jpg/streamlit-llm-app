@@ -414,10 +414,9 @@ def _make_audio_html(text: str) -> str:
         # margin-topなどで位置を調整
         # height=32pxで小さめに表示、再生速度1.25倍
         html = f"""
-        <div style="margin-top: 10px; padding-top: 5px; border-top: 1px dashed #ccc; text-align: right;">
-            <span style="font-size: 14px; margin-right: 8px; font-weight: bold; color: #555;">🔊 よみあげ</span>
-            <audio controls style="vertical-align: middle; height: 32px;" onloadedmetadata="this.playbackRate=1.25;">
-                <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
+        <div class="audio-section">
+            <span class="audio-label">🔊 よみあげ</span>
+            <audio controls src="data:audio/mp3;base64,{b64}" onloadedmetadata="this.playbackRate=1.25;">
             </audio>
         </div>
         """
@@ -620,15 +619,15 @@ if clicked:
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Yu+Gothic&display=swap');
             body {{
-                /* bodyの余白をゼロにする（赤矢印対策） */
-                margin: 0; padding: 0px; background-color: transparent;
+                /* bodyの余白をゼロにする */
+                margin: 0; padding: 1px; background-color: transparent;
                 font-family: "Yu Gothic", "游ゴシック", sans-serif;
-                overflow: auto; /* スクロールバーは必要な時だけ */
             }}
+            /* 枠のデザイン */
             .wani-output {{
                 border: 2px solid #111;
-                padding: 15px 10px;
-                /* 枠内の余白を少し狭くする (上下15px, 左右10px) （赤矢印対策） */
+                /* 枠内の余白 */
+                padding: 10px 8px;
                 font-size: 18px;
                 line-height: 1.5;
                 white-space: pre-wrap;
@@ -638,8 +637,32 @@ if clicked:
                 box-sizing: border-box; /* 枠線を含めて幅を計算 */
                 width: 100%;
             }}
-            /* オーディオプレイヤーの上の余白をなくす */
-            audio {{ width: 100%; margin-top: 0px; }}
+            
+            /* 読み上げエリア（緑・紫矢印：縦の隙間を詰める修正） */
+            .audio-section {{
+                margin-top: 5px;       /* 緑矢印：テキストとの隙間を最小に */
+                padding-top: 2px;      /* 紫矢印：点線との隙間を最小に */
+                border-top: 1px dashed #ccc;
+                text-align: right;
+            }}
+
+            /* 「よみあげ」の文字 */
+            .audio-label {{
+                font-size: 12px;
+                font-weight: bold;
+                color: #555;
+                margin-right: 5px;
+                display: inline-block;
+                vertical-align: middle;
+            }}
+
+            /* プレイヤー本体（青矢印：文字との隙間を詰める修正） */
+            audio {{
+                width: 100%;
+                height: 30px;      /* プレイヤーの高さを少しスリムに */
+                margin-top: 2px;   /* 青矢印：直上の文字との隙間を詰める */
+                vertical-align: middle;
+            }}
         </style>
         
         <div class="wani-output">{render_text}{audio_tag}</div>
