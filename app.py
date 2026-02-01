@@ -411,10 +411,11 @@ def _make_audio_html(text: str) -> str:
         
         # HTMLタグ生成（回答文の下に出すプレイヤー）
         # margin-topなどで位置を調整
+        # height=32pxで小さめに表示、再生速度1.25倍
         html = f"""
         <div style="margin-top: 20px; padding-top: 10px; border-top: 1px dashed #ccc; text-align: right;">
             <span style="font-size: 14px; margin-right: 8px; font-weight: bold; color: #555;">🔊 よみあげ</span>
-            <audio controls style="vertical-align: middle; height: 32px;">
+            <audio controls style="vertical-align: middle; height: 32px;" onloadedmetadata="this.playbackRate=1.25;">
                 <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
             </audio>
         </div>
