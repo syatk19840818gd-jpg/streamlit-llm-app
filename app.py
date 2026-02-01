@@ -10,6 +10,7 @@ import base64
 import json
 import re
 import streamlit as st
+import streamlit.components.v1 as components
 import io                   
 
 from gtts import gTTS       
@@ -614,7 +615,31 @@ if clicked:
         audio_tag = st.session_state.audio_html
         
         # wani-output の枠の中に audio_tag を入れることで枠内にボタンを表示
-        output_area.markdown(
-            f'<div class="wani-output">{render_text}{audio_tag}</div>',
-            unsafe_allow_html=True,
-        )
+        # コンポーネント用のCSSとHTMLをまとめる
+        full_html = f"""
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Yu+Gothic&display=swap');
+            body {{
+                margin: 0; padding: 5px; background-color: transparent;
+                font-family: "Yu Gothic", "游ゴシック", sans-serif;
+            }}
+            .wani-output {{
+                border: 2px solid #111;
+                padding: 18px 18px;
+                font-size: 18px;
+                line-height: 1.5;
+                white-space: pre-wrap;
+                /* 背景画像が見えるように少し透けさせる */
+                background: rgba(255,255,255,0.9);
+                border-radius: 8px;
+            }}
+            /* オーディオプレイヤーの幅調整 */
+            audio {{ width: 100%; margin-top: 5px; }}
+        </style>
+        
+        <div class="wani-output">{render_text}{audio_tag}</div>
+        """
+        
+        # output_areaの中身をコンポーネントで上書き
+        with output_area:
+            components.html(full_html, height=400, scrolling=True)
