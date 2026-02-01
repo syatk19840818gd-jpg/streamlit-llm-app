@@ -508,7 +508,7 @@ if clicked:
     if err:
         st.warning(err)
     else:
-        # 先に「考え中…」を表示（体感を良くする）
+        # 先に「考え中…」を表示
         output_area.markdown(
             '<div class="wani-output">考え中..すこしまってね。</div>',
             unsafe_allow_html=True,
@@ -516,17 +516,15 @@ if clicked:
 
         with st.spinner("考え中..すこしまってね。"):
             try:
-                # おしえて☆モード：説明文を整形して出す
+                # おしえて☆モード
                 if mode == "おしえて☆モード":
                     raw = get_wani_answer(topic, mode)
                     ans = _clean_teach_answer(raw)
                     st.session_state.output_text = ans
-                    # 音声を生成
                     st.session_state.audio_html = _make_audio_html(ans)
 
-                # クイズ☆モード：1回目=問題、2回目=答え＋せつめい
+                # クイズ☆モード
                 else:
-                    # 入力が変わったらクイズ状態をリセット
                     if st.session_state.quiz_topic != topic:
                         st.session_state.quiz_stage = 0
                         st.session_state.quiz_topic = topic
@@ -537,7 +535,6 @@ if clicked:
                         st.session_state.quiz_a2 = ""
                         st.session_state.quiz_e2 = ""
 
-                    # 1回目：問題だけ表示
                     if st.session_state.quiz_stage == 0:
                         raw = get_wani_answer(topic, mode)
                         obj = _extract_json_obj(raw)
@@ -561,7 +558,6 @@ if clicked:
                                 a2 = quizzes[1]["answer"]
                                 e2 = quizzes[1].get("explanation", "")
 
-                                # 2回目用に保存
                                 st.session_state.quiz_q1 = q1
                                 st.session_state.quiz_a1 = a1
                                 st.session_state.quiz_e1 = e1
@@ -575,12 +571,9 @@ if clicked:
                                     f"② {q2}\n\n"
                                     "「おしえて！」をもう１回おすと「こたえ」と「せつめい」がでるよ！"
                                 )
-                                # 音声を生成
-                                # 読み上げ用（①→いちばん、②→にばん、最後の案内文なし）
                                 audio_text = f"いちばん。{q1}。にばん。{q2}"
                                 st.session_state.audio_html = _make_audio_html(audio_text)
 
-                    # 2回目：答え＋せつめい表示
                     else:
                         q1 = st.session_state.quiz_q1
                         a1 = st.session_state.quiz_a1
@@ -598,8 +591,6 @@ if clicked:
                             f"せつめい：{e2}"
                         )
                         st.session_state.quiz_stage = 0
-                        # 音声を生成
-                        # 読み上げ用（問題文＋「いちばんのこたえ」＋「せつめい」キーなし）
                         audio_text = (
                             f"いちばんのこたえ。{a1}。{e1}。"
                             f"にばんのこたえ。{a2}。{e2}"
@@ -609,41 +600,48 @@ if clicked:
             except Exception:
                 st.session_state.output_text = "ごめんね、うまくできなかったよ。もう1回おしてみてね！"
 
-        # テキストと音声を合体させて表示
-        render_text = st.session_state.output_text.replace("\n", "<br>")
+        # 【重要修正】ここで末尾の改行を削除(.strip)して、緑矢印の余白を消します
+        render_text = st.session_state.output_text.strip().replace("\n", "<br>")
         audio_tag = st.session_state.audio_html
         
-        # wani-output の枠の中に audio_tag を入れることで枠内にボタンを表示
-        # コンポーネント用のCSSとHTMLをまとめる
+        # コンポーネント用のCSSとHTML
         full_html = f"""
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Yu+Gothic&display=swap');
+            
+            * {{
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }}
+
             body {{
-                /* bodyの余白をゼロにする */
-                margin: 0; padding: 1px; background-color: transparent;
+                background-color: transparent;
+                padding: 1px; /* 枠線欠け防止 */
                 font-family: "Yu Gothic", "游ゴシック", sans-serif;
             }}
-            /* 枠のデザイン */
+
+            /* 黒い枠線の中身 */
             .wani-output {{
                 border: 2px solid #111;
-                /* 枠内の余白 */
-                padding: 10px 8px;
+                padding: 12px 10px;
                 font-size: 18px;
                 line-height: 1.5;
                 white-space: pre-wrap;
-                /* 背景画像が見えるように少し透けさせる */
                 background: rgba(255,255,255,0.9);
                 border-radius: 8px;
-                box-sizing: border-box; /* 枠線を含めて幅を計算 */
                 width: 100%;
             }}
-            
-            /* 読み上げエリア（緑・紫矢印：縦の隙間を詰める修正） */
+
+            /* 読み上げエリア全体 */
             .audio-section {{
-                margin-top: 5px;       /* 緑矢印：テキストとの隙間を最小に */
-                padding-top: 2px;      /* 紫矢印：点線との隙間を最小に */
+                margin-top: 8px;
+                padding-top: 4px;
                 border-top: 1px dashed #ccc;
                 text-align: right;
+                display: flex; 
+                flex-direction: column;
+                align-items: flex-end;
             }}
 
             /* 「よみあげ」の文字 */
@@ -651,25 +649,20 @@ if clicked:
                 font-size: 12px;
                 font-weight: bold;
                 color: #555;
-                margin-right: 5px;
-                display: inline-block;
-                vertical-align: middle;
+                margin-bottom: 2px;
             }}
 
-            /* プレイヤー本体（青矢印：文字との隙間を詰める修正） */
+            /* 読み上げプレイヤー本体 */
             audio {{
-                width: 100%;
-                height: 30px;      /* プレイヤーの高さを少しスリムに */
-                margin-top: 2px;   /* 青矢印：直上の文字との隙間を詰める */
-                vertical-align: middle;
+                width: 50%;
+                max-width: 50%; /* スマホの画面 */
+                height: 28px;
+                display: block;
             }}
         </style>
         
         <div class="wani-output">{render_text}{audio_tag}</div>
         """
         
-        # output_areaの中身をコンポーネントで上書き
         with output_area:
-            # heightは内容量に合わせて自動調整できないため、
-            # 少し大きめの固定値（例: 600）に設定し、はみ出たらスクロールするように
             components.html(full_html, height=600, scrolling=True)
