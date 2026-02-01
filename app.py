@@ -654,7 +654,7 @@ if clicked:
 
             /* 読み上げプレイヤー本体 */
             audio {{
-                width: 300px;
+                width: 250px;
                 max-width: 100%; /* スマホの画面 */
                 height: 28px;
                 display: block;
