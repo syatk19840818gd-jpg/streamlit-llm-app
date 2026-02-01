@@ -620,20 +620,25 @@ if clicked:
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Yu+Gothic&display=swap');
             body {{
+                /* bodyの余白をゼロにする（赤矢印対策） */
                 margin: 0; padding: 0px; background-color: transparent;
                 font-family: "Yu Gothic", "游ゴシック", sans-serif;
+                overflow: auto; /* スクロールバーは必要な時だけ */
             }}
             .wani-output {{
                 border: 2px solid #111;
                 padding: 15px 10px;
+                /* 枠内の余白を少し狭くする (上下15px, 左右10px) （赤矢印対策） */
                 font-size: 18px;
                 line-height: 1.5;
                 white-space: pre-wrap;
                 /* 背景画像が見えるように少し透けさせる */
                 background: rgba(255,255,255,0.9);
                 border-radius: 8px;
+                box-sizing: border-box; /* 枠線を含めて幅を計算 */
+                width: 100%;
             }}
-            /* オーディオプレイヤーの幅調整 */
+            /* オーディオプレイヤーの上の余白をなくす */
             audio {{ width: 100%; margin-top: 0px; }}
         </style>
         
@@ -642,4 +647,6 @@ if clicked:
         
         # output_areaの中身をコンポーネントで上書き
         with output_area:
-            components.html(full_html, height=400, scrolling=True)
+            # heightは内容量に合わせて自動調整できないため、
+            # 少し大きめの固定値（例: 600）に設定し、はみ出たらスクロールするように
+            components.html(full_html, height=600, scrolling=True)
