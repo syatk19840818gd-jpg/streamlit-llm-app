@@ -414,7 +414,7 @@ def _make_audio_html(text: str) -> str:
         # margin-topなどで位置を調整
         # height=32pxで小さめに表示、再生速度1.25倍
         html = f"""
-        <div style="margin-top: 20px; padding-top: 10px; border-top: 1px dashed #ccc; text-align: right;">
+        <div style="margin-top: 10px; padding-top: 5px; border-top: 1px dashed #ccc; text-align: right;">
             <span style="font-size: 14px; margin-right: 8px; font-weight: bold; color: #555;">🔊 よみあげ</span>
             <audio controls style="vertical-align: middle; height: 32px;" onloadedmetadata="this.playbackRate=1.25;">
                 <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
@@ -620,12 +620,12 @@ if clicked:
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Yu+Gothic&display=swap');
             body {{
-                margin: 0; padding: 5px; background-color: transparent;
+                margin: 0; padding: 0px; background-color: transparent;
                 font-family: "Yu Gothic", "游ゴシック", sans-serif;
             }}
             .wani-output {{
                 border: 2px solid #111;
-                padding: 18px 18px;
+                padding: 15px 10px;
                 font-size: 18px;
                 line-height: 1.5;
                 white-space: pre-wrap;
@@ -634,7 +634,7 @@ if clicked:
                 border-radius: 8px;
             }}
             /* オーディオプレイヤーの幅調整 */
-            audio {{ width: 100%; margin-top: 5px; }}
+            audio {{ width: 100%; margin-top: 0px; }}
         </style>
         
         <div class="wani-output">{render_text}{audio_tag}</div>
